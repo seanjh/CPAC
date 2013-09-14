@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ch3/AdditionQuiz.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ch3/CP.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/homework0.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CPAC.iws" />
@@ -21,7 +18,7 @@
     <file path="/SalesTax.java" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379041144065" ignored="false" />
     <file path="/ComputeLoan.java" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379188242580" ignored="false" />
     <file path="/CP225.java" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379177002798" ignored="false" />
-    <file path="/Dummy.txt" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379196683510" ignored="false" />
+    <file path="/Dummy.txt" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379200352839" ignored="false" />
     <file path="/DisplayUnicode.java" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379182576711" ignored="false" />
     <file path="/ComputeChange.java" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379184332841" ignored="false" />
     <file path="/CP231.java" changelist="3eb4d00b-2d21-4877-93b0-fd2a75f319a2" time="1379185020528" ignored="false" />
@@ -284,7 +281,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="fileTemplates" />
+    <property name="options.lastSelected" value="settings.github" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -517,7 +514,11 @@
       <created>1379189204244</created>
       <updated>1379189204244</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="ch2 reading done">
+      <created>1379200356734</created>
+      <updated>1379200356734</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -542,7 +543,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="7" width="1900" height="1040" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
