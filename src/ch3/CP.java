@@ -1,5 +1,7 @@
 package ch3;
 
+//import java.util.Scanner;
+
 /**
  * Created with IntelliJ IDEA.
  * User: seanh
@@ -7,6 +9,20 @@ package ch3;
  */
 public class CP {
     public static void main(String[] args) {
+        // 3.6
+        /*double pay = 50000;
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Enter a score: ");
+        int score = input.nextInt();
+
+        if (score > 90)
+            pay = pay + (pay * 0.03);
+        else
+            pay = pay + (pay * 0.01);
+
+        System.out.println("New pay: " + pay);*/
+
         /*// 3.4
         int y = 5;
         int x = 0;
