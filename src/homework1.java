@@ -36,18 +36,27 @@ public class homework1 {
         // Calculate the difference in seconds.
         boolean negativeDifference = (timeInSeconds1 < timeInSeconds2);
         int secondsDifference = Math.abs(timeInSeconds1 - timeInSeconds2);
+        int timeDifference = 0;
 
         // Convert difference in seconds back to HHMMSS
         int hoursDifference = secondsDifference / 3600; // hours in difference
         secondsDifference = Math.abs(secondsDifference % 3600);
+        timeDifference = timeDifference + (hoursDifference * 10000);
         int minutesDifference = secondsDifference / 60; // minutes in remaining difference
+        timeDifference = timeDifference + (minutesDifference * 100);
         secondsDifference = secondsDifference % 60; // seconds in remaining difference
+        timeDifference = timeDifference + secondsDifference;
 
         // Display the results
-        System.out.printf("Time difference: ");
+        System.out.printf("Time difference (1): ");
         if (negativeDifference)
             System.out.printf("-");
         System.out.printf("%d%02d%02d", hoursDifference, minutesDifference, secondsDifference);
+
+        System.out.printf("\nTime difference (2): ");
+        if (negativeDifference)
+            System.out.printf("-");
+        System.out.print(timeDifference);
 
     }
 }
