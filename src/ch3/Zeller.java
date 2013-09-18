@@ -23,7 +23,7 @@ public class Zeller {
         System.out.print("Enter month number (1-12): ");
         int month = input.nextInt();
 
-        // Prompt user for the day of the month.
+        // Prompt user for the day of tvhe month.
         System.out.print("Enter the day of the month (1-31): ");
         int day = input.nextInt();
 
