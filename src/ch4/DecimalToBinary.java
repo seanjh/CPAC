@@ -13,32 +13,34 @@ public class DecimalToBinary {
 		int inputInt = input.nextInt();
 
 		// Initialize values
-		int powerOfTwo = 1, binaryPlace = 1, binaryValue = 0;
+		int powerOfTwo = 1; 
+		long binaryPlace = 1;
 
-		// Find minimum/first power of 2 greater than the input value
-		while (inputInt > powerOfTwo) {
-			if (power > 0 && (inputInt % powerOfTwo) != 0)
-				binaryValue += binaryPlace;
-			binaryPlace *= 10;
+		// Find minimum power of 2 needed for this input.
+		while (inputInt > powerOfTwo * 2) {
 			powerOfTwo *= 2;
+			binaryPlace *= 10;
 		}
-		if ((inputInt % 2) != 0)
-			binaryValue += 1; // Odd number
 
-		System.out.println(inputInt + "'s binary value is " + binaryValue);
-	
-	// sumProducts = 1, power = 0, binaryPlace = 1, binaryValue = 0
-		// while (value > sumProduct)
-			// if (power == 0 && value % 2 != 0)
-				//  binaryPlace	+= 1;
-			// else if value % sumProducts != 0 	
-				// binaryValue += (1 * binaryPlace) 
-			// binaryPlace *= 10; 
-			// sumProducts *=2;
-			// power++;
-	// Cycle through modulo for each power of 2
-		// first, get the value of 2 ^ i
-		// if value % (power of 2) == 0, then print 1 else print 0
+		int remainder = inputInt;
+		long binaryValue = 0;
+		// Cycle down powers of 2
+			// BEFORE i-6 pot-4 dp-100 dv-0
+			// pot-2 dp-10 dv-100
+			// pot-1 dp-1 dv-110
+			// pot-0 dp-0 dv-110
+		while (powerOfTwo > 1) {
+			// Remainder value holds this power of 2
+			if (remainder / powerOfTwo > 0) {
+				binaryValue += binaryPlace;
+				remainder -= powerOfTwo;
+			}
+			binaryPlace /= 10;
+			powerOfTwo /= 2;
+		}
+
+		// Display the result
+		System.out.println(inputInt + " in binary: " + binaryValue);
 	}
 
 }
