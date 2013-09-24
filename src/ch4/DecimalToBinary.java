@@ -17,7 +17,7 @@ public class DecimalToBinary {
 		long binaryPlace = 1;
 
 		// Find minimum power of 2 needed for this input.
-		while (inputInt > powerOfTwo * 2) {
+		while (inputInt >= powerOfTwo * 2) {
 			powerOfTwo *= 2;
 			binaryPlace *= 10;
 		}
@@ -29,7 +29,7 @@ public class DecimalToBinary {
 			// pot-2 dp-10 dv-100
 			// pot-1 dp-1 dv-110
 			// pot-0 dp-0 dv-110
-		while (powerOfTwo > 1) {
+		while (powerOfTwo >= 1) {
 			// Remainder value holds this power of 2
 			if (remainder / powerOfTwo > 0) {
 				binaryValue += binaryPlace;
