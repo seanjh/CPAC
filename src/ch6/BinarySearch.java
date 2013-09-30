@@ -22,20 +22,20 @@ public class BinarySearch {
 		int keyValue = Integer.parseInt(inputValue);
 
 		// Display the list
-		displayList(sortedList);
+		displayList(sortedList, 15);
 
 		int keyIndex = binarySearch(keyValue, sortedList);
 
 		displayResult(keyIndex, keyValue, sortedList.length);
 	}
 
-	public static void displayList(int[] list) {
+	public static void displayList(int[] list, int columns) {
 		for (int i = 0; i < list.length; i++) {
 			// Display the value
 			System.out.printf("%-6d", list[i]); //10000
 			
-			// Print a newline for every 10 values
-			if ((i + 1) % 10 == 0) {
+			// Print a newline for every columns values
+			if ((i + 1) % columns == 0) {
 				System.out.println();
 			}
 		}
@@ -47,18 +47,17 @@ public class BinarySearch {
 	public static int binarySearch(int key, int[] list) {
 		int high = list.length - 1;
 		int low = 0;
-		int mid = getMidpoint(low, high);
+		int mid;
 
 		do {
+			mid = getMidpoint(low, high);
 			displayStatus(key, low, mid, high, list);
 			if (key < list[mid]) {
 				high = mid - 1;
-				mid = getMidpoint(low, high);
 			} else if (key > list[mid]) {
 				low = mid + 1;
-				mid = getMidpoint(low, high);
 			}
-		} while (list[mid] != key && high != mid && low != mid);
+		} while (list[mid] != key && high >= low);
 
 		// If our middle index equals the key, we found a match
 		if (list[mid] == key)
@@ -83,7 +82,7 @@ public class BinarySearch {
 			System.out.println(value + " was not located in the list.");
 		} else {
 			System.out.println(value + " was located at index " + index + 
-				" of " + length -1);
+				" of " + (length -1));
 		}
 	}
 
