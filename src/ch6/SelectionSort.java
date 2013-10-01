@@ -6,7 +6,7 @@ public class SelectionSort {
 		Scanner input = new Scanner(System.in);
 
 		// Creat the randomList
-		int[] randomList = new int[5000];
+		int[] randomList = new int[10000];
 
 		// Input sorted list of 5000 values
 		// list via http://www.random.org/
@@ -18,24 +18,33 @@ public class SelectionSort {
 		// displayList(randomList, 12);
 
 		System.out.println("Beginning selection sort.");
-		selectionSort(randomList);
+        int operations = 0;
+        operations = selectionSort(randomList, operations);
 
 		System.out.println("Done selection sort.");
 		displayList(randomList, 12);
+
+        System.out.println();
+        System.out.printf("Completed %,d total operations (%,.2f ops / item)", operations, ((float)operations / randomList.length));
 	}
 
-	public static void selectionSort(int[] list) {
+	public static int selectionSort(int[] list, int operations) {
 		for (int i = 0; i < list.length; i++) {
-			swapInMimumum(i, list);
+            operations += 1;
+			operations += swapInMimumum(i, list);
 		}
+
+        return operations;
 	}
 
-	public static void swapInMimumum(int startIndex, int[] list) {
+	public static int swapInMimumum(int startIndex, int[] list) {
 		int minIndex = startIndex;
 		int minValue = list[startIndex];
+        int operations = 0;
 
 		// Find the index for the minimum value in the remaining array
 		for (int i = (startIndex + 1); i < list.length; i++) {
+            operations += 1; // one check
 			if (list[i] < minValue) {
 				minIndex = i;
 				minValue = list[i];
@@ -46,6 +55,9 @@ public class SelectionSort {
 		int temp = list[startIndex]; // preserve the original value
 		list[startIndex] = minValue; // replace with new minimum value
 		list[minIndex] = temp; // move the original to the minimum's position
+        operations += 3; // swapped values
+
+        return operations;
 	}
 
 	public static void displayList(int[] list, int columns) {

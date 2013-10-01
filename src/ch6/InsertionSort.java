@@ -1,3 +1,5 @@
+//package ch6;
+
 import java.util.Scanner;
 
 public class InsertionSort {
@@ -5,8 +7,9 @@ public class InsertionSort {
 		// Initialize the Scanner
 		Scanner input = new Scanner(System.in);
 
-		// Creat the randomList
-		int[] randomList = new int[100];
+		// Create the randomList
+		int[] randomList = new int[10000];
+        //int[] randomList = {55,32,854,215,687,87893,481,43,35486};
 
 		// Input sorted list of 5000 values
 		// list via http://www.random.org/
@@ -15,38 +18,60 @@ public class InsertionSort {
 			randomList[i] = input.nextInt();
 		}
 
-		// displayList(randomList, 12);
+		displayList(randomList, 18);
 
 		System.out.println("Beginning insertion sort.");
-		insertionSort(randomList);
+        int operations = 0;
+        operations = insertionSort(randomList, operations);
 
 		System.out.println("Done insertion sort.");
-		displayList(randomList, 12);
+		displayList(randomList, 18);
+
+        System.out.println();
+        System.out.printf("Completed %,d total operations (%,.2f ops / item)", operations, ((float)operations / randomList.length));
+
 	}
 
-	public static void insertionSort(int[] list) {
+	public static int insertionSort(int[] list, int operations) {
+		int minimum = list[0];
+        int maximum = list[0];
 		// Insert each value in the sorted sublist
 		for (int i = 1; i < list.length; i++) {
-			insertValue(0, i, list);
-		}
-	}
+            operations += 1; // 1 check
+            if (list[i] < minimum) {
+                minimum = list[i]; // new minimum
+                shiftRight(0, i, list[i], list);
+                operations += i; // number of shifts
+            } else if (list[i] > maximum) {
+                maximum = list[i];
+                // no shifts
+            } else {
+                int insertIndex = findPlace(i, list[i], list);
+                operations += (i-insertIndex); // number of lookups
+                shiftRight(insertIndex, i, list[i], list);
+                operations += (i-insertIndex); // number of shifts
+            }
+        }
 
-	public static void insertValue(int indexStart, int indexEnd, int[] list) {
-		int currentValue;
-		for (int i = (indexEnd); i > indexStart; i--) {
-			currentValue = list[indexEnd];
-			if (currentValue > list[i-1] && currentValue <= list[i]) {
-				shiftListRight(i, indexEnd, currentValue, list);
-			}
-		}
-	}
+        return operations;
+    }
 
-	public static void shiftListRight(int indexStart, int indexEnd, int current, int[] list) {
-		for (int i = indexEnd; i > indexStart; i--) {
-			list[i] = list[i-1];
-		}
-		list[indexStart] = current;
-	}
+    public static int findPlace(int indexEnd, int targetValue, int[] list) {
+        int i;
+        for (i = 1; i < indexEnd; i++) {
+            if (targetValue <= list[i]) {
+                return i;
+            }
+        }
+        return i;
+    }
+
+    public static void shiftRight(int start, int finish, int insertValue, int[] list) {
+        for (int i = finish; i > start; i--) {
+            list[i] = list[i-1];
+        }
+        list[start] = insertValue;
+    }
 
 	public static void displayList(int[] list, int columns) {
 		for (int i = 0; i < list.length; i++) {
@@ -61,29 +86,3 @@ public class InsertionSort {
 		System.out.println();
 	} 
 }
-
-
-
-/*
-5,7,8,9,2 - start
-5,7,8,8,9 - 2=9, 9=8
-5,7,7,8,9
-5,5,7,8,9
-2,5,7,8,9
-
-5,7,8,9,2 - start
-5,7,8,9,9
-5,7,8,8,9
-5,7,7,8,9
-5,5,7,8,9
-2,5,7,8,9
-
-5,7,8,9,2
-
-5,7,8,9,9 - 4,3
-5,7,8,8,9 - 3,2
-5,7,7,8,9 - 2,1
-5,5,7,8,9 - 1,0
-after 2,5,7,8,9 
-
-*/
