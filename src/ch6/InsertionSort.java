@@ -15,7 +15,8 @@ public class InsertionSort {
 		// list via http://www.random.org/
 		System.out.println("Getting input.");
 		for (int i = 0; i < randomList.length; i++) {
-			randomList[i] = input.nextInt();
+            //randomList[i] = input.nextInt();
+            randomList[i] =(int) (Math.random() * 1000000) + 1;
 		}
 
 		displayList(randomList, 18);
