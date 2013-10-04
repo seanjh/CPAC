@@ -1,14 +1,17 @@
-package homework;
+/**
+ * Author:   Sean Herman
+ * Date:     10/06/2013
+ * HW#:      #03
+ * File:	   CarSimulator.java
+ * Summary:  Simulates the movement and behavior of a car in a 2-dimensional
+ *  plane. The car's attributes include its color, its position (x,y) , and its
+ *  ignition state (on/off). Users may control the ignition, and move the car
+ *  around witin its boundaries. After each move, the position of the car is
+ *  displayed.
+ */
 
 import java.util.Scanner;
-
-/**
- * Name:    Sean Herman
- * Date:    09/28/2013
- * Homework: #03
- * File:	 CarSimulator.java
- * Summary: 
- */
+//package homework;
 
 public class CarSimulator {
     public static void main(String[] args) {
@@ -48,15 +51,19 @@ public class CarSimulator {
         
         // Get input from the user
         inputValue = input.next();
+        System.out.println();
         quitter = (inputValue.equals("Q") || inputValue.equals("q"));
 
         // Check the input
         if (inputValue.equals("1")) {
           ignition = switchIgnition(ignition);
+          System.out.println();
         } else if (inputValue.equals("2")) {
           moveCar(ignition, color, position, input);
+        } else if (!quitter) { // unrecognized entry
+          System.out.println("Invalid input.");
+          System.out.println();
         }
-
       } while(!quitter);
     } // end driveCar
 
@@ -85,7 +92,8 @@ public class CarSimulator {
         return state;
     }
 
-    public static void moveCar(boolean ignition, char color, int[] position, Scanner input) {
+    public static void moveCar(boolean ignition, char color, int[] position, 
+                              Scanner input) {
       int moveValue;
       boolean horizontalMove;
       String inputValue;
@@ -95,13 +103,17 @@ public class CarSimulator {
           // Prompt the user to specify the direction
           showMoveDirectionPrompt();
           inputValue = input.next();
+          System.out.println();
 
           // Save that direction
           horizontalMove = inputValue.equals("H") || inputValue.equals("h");
+          // #TODO validate input. 
+          // Currently accepts ANYTHING that's not H or h as a V move
 
           // Prompt the user to specify how far
           showHowFarPrompt(horizontalMove);
           inputValue = input.next();
+          System.out.println();
           moveValue = Integer.parseInt(inputValue);
 
           // Initialize my x (move[0]) and y (move[1])
@@ -115,8 +127,9 @@ public class CarSimulator {
 
           // Get movin'
           doMove(ignition, color, position, move);
-      } else {
+      } else { // ignition is off
           System.out.println("Turn on the ignition first.");
+          System.out.println();
       }
 
     } // end moveCar
@@ -135,13 +148,15 @@ public class CarSimulator {
         }
     }
 
-    public static void doMove(boolean ignition, char color, int[] position, int[] move) {
+    public static void doMove(boolean ignition, char color, int[] position, 
+                              int[] move) {
         if (validMove(position, move)) {
             updatePosition(position, move);
             displayStatus(ignition, color, position);
         } else {
             System.out.println("ERROR: That move is out of bounds.");
             printPosition(position);
+            System.out.println();
         }
 
     }
@@ -157,14 +172,13 @@ public class CarSimulator {
         return (newX >= 0 && newX <= 20 && newY >= 0 && newY <= 20);
     }
 
-    public static void displayStatus(boolean ignition, char color, int[] position) {
+    public static void displayStatus(boolean ignition, char color, 
+                                    int[] position) {
         System.out.println("Car Information");
         System.out.println("Color: " + fullColor(color));
         System.out.println("Ignition: " + ignitionState(ignition));
         printPosition(position);
         printOverhead(color, position);
-
-
     }
 
     public static void printPosition(int[] position) {
@@ -172,8 +186,21 @@ public class CarSimulator {
     }
 
     public static String fullColor(char color) {
-        String fullColor = "Hello, World."; // #TODO fix this method
-        String[] colorStrings = {"red", "green", "blue", "white", "silver"};
+        String fullColor;
+        
+        // Determine the corresponding full color name for char color
+        if (color == 'R')
+          fullColor = "red";
+        else if (color == 'G')
+          fullColor = "green";
+        else if (color == 'B')
+          fullColor = "blue";
+        else if (color == 'W')
+          fullColor = "white";
+        else if (color == 'S')
+          fullColor = "silver";
+        else
+          fullColor = "ERROR";
 
         return fullColor;
     }
@@ -189,111 +216,4 @@ public class CarSimulator {
             System.out.println();
         }
     }
-}
-
-
-
-/*
-After this beginning state is assigned to the car, you should then have a loop 
-which asks the user what he/she wants to do next. For example:
-
-  What would you like to do?
-  1: turn the ignition on/off
-  2: change the position of car
-  Q: quit this program
-If the user selects '1' to turn the car's ignition on or off, then your program 
-will call the method that changes the ignition state (explained below), and 
-save the new ignition value in place of the old one.
-
-If the user selects '2' to change the car's position, you will prompt the user 
-for a direction. For example:
-
-  In which direction would you like to move the car?
-  H: horizontal
-  V: vertical
-And then prompt for the distance. For example:
-
-  How far (negative value to move left)?    or    How far (negative value to 
-  move up)?
-Then your program will call the appropriate method (move horizontal or move 
-vertical -- see below) with suitable arguments.
-
-
-
-You should write a method for each of the following:
-
-random position:
-Randomly picks a number between 1 and 20 to set as an X or Y coordinate.
-This method should only be called once for X and once for Y at the beginning 
-of the program.
-
-color assignment:
-Randomly picks one of the five colors and returns the corresponding char 
-('R', 'G', 'B', 'W', 'S') to main().
-This method should be called once at the beginning of the program. The color 
-will not change during the execution of the program.
-
-move car horizontally:
-This method will take as arguments the current ignition state, the current 
-X coordinate, the number of spaces you would like to move the car (a negative 
-value will move the car left; positive value will move the car right). It will 
-return the new horizontal position of the car after it is moved.
-
-If the car's ignition is not on, this method tells the user that he/she must 
-turn the ignition on first and returns the current X position 
-(does not move the car).
-
-If the user tries to move the car beyond the border of the 20x20 grid, 
-this method outputs an error message and returns the current X position (does 
-not move the car).
-
-move car vertically: This method will take as arguments the current ignition 
-state, the current Y coordinate, the number of spaces you would like to move 
-the car (a negative value will move the car up; positive value will move the 
-car down). It will return the new vertical position of the car after it is moved.
-
-If the car's ignition is not on, this method tells the user that he/she must 
-turn the ignition on first and returns the current Y position (does not move 
-the car).
-
-If the user tries to move the car beyond the border of the 20x20 grid, this 
-method outputs an error message and returns the current Y position (does not 
-move the car).
-
-change ignition state: This method will return the opposite of the ignition 
-value which is given to it as a parameter (e.g. it will turn the car off when 
-it is on or on when it is off). The new ignition value is returned for storage 
-in main().
-
-report the state of the car: After each action, you should print the "state" 
-of the car. This method will take all the car's characteristics as arguments 
-and report the status of each, including a visual representation of
-the car's position in the grid.
-
-For example, the output might look something like this (indicating car location 
-on the grid with 'R' because the car's color is red):
-  Car Information
-  Color: red
-  Ignition: on
-  Location: (5, 17)
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - R - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-  - - - - - - - - - - - - - - - - - - - -
-*/
+} // end of CarSimulator
