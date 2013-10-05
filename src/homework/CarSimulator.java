@@ -8,10 +8,18 @@
  *  ignition state (on/off). Users may control the ignition, and move the car
  *  around witin its boundaries. After each move, the position of the car is
  *  displayed.
+ *
+ * Note:    I made some small changes to the program that (I think) improve its
+ *  readability. The original assignment called for 2 separate methods for moving
+ *  the car: one horizontal, one vertical. I feel that a single method works best
+ *  with the car's (X,Y) position stored in an Array. Using this approach, it
+ *  seemed best to also store the move as an Array (X,Y). This approach seems 
+ *  preferable, since it consolidates the move functionality to a single method,
+ *  which should reduce duplicated code and make for easier in.
+ *
  */
 
 import java.util.Scanner;
-//package homework;
 
 public class CarSimulator {
     public static void main(String[] args) {
@@ -41,37 +49,51 @@ public class CarSimulator {
     }
 
     public static void driveCar(boolean ignition, char color, int[] position) {
-      Scanner input = new Scanner(System.in);
-      String inputValue;
-      boolean quitter;
+        Scanner input = new Scanner(System.in);
+        String inputValue;
+        boolean quitter;
 
-      do {
-        // Prompt user for action
-        showDoPrompt();
-        
-        // Get input from the user
-        inputValue = input.next();
+        // Show the initial state of the car.
         System.out.println();
-        quitter = (inputValue.equals("Q") || inputValue.equals("q"));
+        displayStatus(ignition, color, position);
+        System.out.println();
 
-        // Check the input
-        if (inputValue.equals("1")) {
-          ignition = switchIgnition(ignition);
+        do {
+          // Prompt user for action
+          showDoPrompt();
+          
+          // Get input from the user.
+          inputValue = input.next();
           System.out.println();
-        } else if (inputValue.equals("2")) {
-          moveCar(ignition, color, position, input);
-        } else if (!quitter) { // unrecognized entry
-          System.out.println("Invalid input.");
-          System.out.println();
-        }
-      } while(!quitter);
+          quitter = (inputValue.equals("Q") || inputValue.equals("q"));
+
+          // Check the input value.
+          if (inputValue.equals("1")) { // Switch ignition.
+              ignition = switchIgnition(ignition);
+              System.out.println();
+
+          } else if (inputValue.equals("2")) { // Change position.
+
+              if (ignition) {
+                  changePosition(ignition, color, position, input);
+              } else {
+                  System.out.println("ERROR: You must turn on the ignition first!");
+                  System.out.println();
+              } 
+
+          } else if (!quitter) { // unrecognized entry
+              System.out.println("ERROR: Invalid selection.");
+              System.out.println();
+
+          }
+        } while(!quitter); 
     } // end driveCar
 
     public static void showDoPrompt() {
-      System.out.println("What would you like to do?");
-      System.out.println("  1: turn the ignition on/off");
-      System.out.println("  2: change the position of car");
-      System.out.println("  Q: quit this program");
+        System.out.println("What would you like to do?");
+        System.out.println("  1: Turn the ignition on/off.");
+        System.out.println("  2: Change the position of car.");
+        System.out.println("  Q: Quit this program.");
     }
 
     public static boolean switchIgnition(boolean ignition) {
@@ -85,30 +107,30 @@ public class CarSimulator {
 
     public static String ignitionState(boolean ignition) {
         String state;
+
         if (ignition)
             state = "on";
         else
             state = "off";
+
         return state;
     }
 
-    public static void moveCar(boolean ignition, char color, int[] position, 
+    public static void changePosition(boolean ignition, char color, int[] position, 
                               Scanner input) {
       int moveValue;
       boolean horizontalMove;
       String inputValue;
       int[] move = new int[2];
 
-      if (ignition) { // car is on
-          // Prompt the user to specify the direction
-          showMoveDirectionPrompt();
-          inputValue = input.next();
-          System.out.println();
+      // Prompt the user to specify the direction
+      showMoveDirectionPrompt();
+      inputValue = input.next();
+      System.out.println();
 
-          // Save that direction
+      if (validDirection(inputValue)) {
+          // Save the direction
           horizontalMove = inputValue.equals("H") || inputValue.equals("h");
-          // #TODO validate input. 
-          // Currently accepts ANYTHING that's not H or h as a V move
 
           // Prompt the user to specify how far
           showHowFarPrompt(horizontalMove);
@@ -124,15 +146,19 @@ public class CarSimulator {
               move[0] = 0;
               move[1] = moveValue; // move y, not x
           }
-
-          // Get movin'
+          
+          // Now we can actually move the car.
           doMove(ignition, color, position, move);
-      } else { // ignition is off
-          System.out.println("Turn on the ignition first.");
+      } else { // end if(validDirection())
+          System.out.println("ERROR: Invalid direction!");
           System.out.println();
       }
+    } // end changePosition
 
-    } // end moveCar
+    public static boolean validDirection(String input) {
+      return (input.equals("H") || input.equals("h") || input.equals("V") ||
+        input.equals("v"));
+    }
 
     public static void showMoveDirectionPrompt() {
       System.out.println("In which direction would you like to move the car?");
@@ -150,11 +176,15 @@ public class CarSimulator {
 
     public static void doMove(boolean ignition, char color, int[] position, 
                               int[] move) {
+
+        // Move the car if the move is not out of bounds.
         if (validMove(position, move)) {
             updatePosition(position, move);
             displayStatus(ignition, color, position);
+
         } else {
-            System.out.println("ERROR: That move is out of bounds.");
+            // Don't move the car.
+            System.out.println("ERROR: That move is out of bounds!");
             printPosition(position);
             System.out.println();
         }
@@ -167,13 +197,15 @@ public class CarSimulator {
     }
 
     public static boolean validMove(int[] position, int[] move) {
+        // Reports wheter the move is still within the [1,1] to [20,20] grid.
         int newX = position[0] + move[0];
         int newY = position[1] + move[1];
-        return (newX >= 0 && newX <= 20 && newY >= 0 && newY <= 20);
+        return (newX >= 1 && newX <= 20 && newY >= 1 && newY <= 20);
     }
 
     public static void displayStatus(boolean ignition, char color, 
                                     int[] position) {
+        // Display the car's attributes.
         System.out.println("Car Information");
         System.out.println("Color: " + fullColor(color));
         System.out.println("Ignition: " + ignitionState(ignition));
@@ -182,13 +214,14 @@ public class CarSimulator {
     }
 
     public static void printPosition(int[] position) {
+      // Display the current (X,Y) position of the car.
         System.out.println("Location: (" + position[0] + "," + position[1] + ")");
     }
 
     public static String fullColor(char color) {
         String fullColor;
         
-        // Determine the corresponding full color name for char color
+        // Determine the corresponding full color output String for char color.
         if (color == 'R')
           fullColor = "red";
         else if (color == 'G')
@@ -200,14 +233,15 @@ public class CarSimulator {
         else if (color == 'S')
           fullColor = "silver";
         else
-          fullColor = "ERROR";
+          fullColor = "ERROR!";
 
         return fullColor;
     }
 
     public static void printOverhead(char color, int[] position) {
-        for (int y = 0; y < 20; y++) {
-            for (int x = 0; x < 20; x++) {
+      // Dispay a 2-dimensional overhead view from [1,1] to [20,20]
+        for (int y = 1; y <= 20; y++) {
+            for (int x = 1; x <= 20; x++) {
                 if (position[0] == x && position[1] == y)
                     System.out.print(" " + color);
                 else
@@ -215,5 +249,6 @@ public class CarSimulator {
             }
             System.out.println();
         }
-    }
-} // end of CarSimulator
+    } // end printOverhead
+
+} // end CarSimulator
