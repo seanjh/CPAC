@@ -15,7 +15,7 @@
  *  with the car's (X,Y) position stored in an Array. Using this approach, it
  *  seemed best to also store the move as an Array (X,Y). This approach seems 
  *  preferable, since it consolidates the move functionality to a single method,
- *  which should reduce duplicated code and make for easier in.
+ *  which should reduce duplicated code and make for easier support.
  *
  */
 
