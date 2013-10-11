@@ -2,13 +2,17 @@ class Circle {
     /** The radius of this circle */
     double radius = 1;
 
+    static int numberOfObjects = 0;
+
     /** Construct a circle object */
     Circle() {
+        numberOfObjects++;
     }
 
     /** Construct a circle object */
     Circle(double newRadius) {
         radius = newRadius;
+        numberOfObjects++;
     }
 
     /** Return the area of this circle */
@@ -23,5 +27,9 @@ class Circle {
 
     double setRadius(double newRadius) {
         radius = newRadius;
+    }
+
+    static int getNumberOfObjects() {
+        return numberOfObjects;
     }
 }
