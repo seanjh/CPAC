@@ -3,26 +3,35 @@
  * Date:     10/13/2013
  * HW#:      #04
  * File:	 TenCarSimulator.java
- * Summary:  etc.
- * Notes:    I decided to stored each car in a String array. Preserving each car 
- *           in its own array naturally presented some unique challenges. Adding
- *           or updating an individual car's attributes, or passing those
- *           attributes as parameters, required conversions between the original
- *           attribute type and the String. The class email provided an
- *           alternative, storing each set of attributes in its own array, but 
- *           I feel my approach, while clunky (aren't all array-based solutions)
- *           has the advantage of creating "object-like" arrays, storing different
- *           different types of values. Conceptually, if I'm forced to use arrays,
- *           I prefer to mimic that object-oriented style, and establish a single
- *           array for each car. As a bonus, this provided me an opportunity to
- *           get some experience with multi-dimensional arrays, which was a 
- *           valuable experience.
+ * Summary:  Simulates the movement and behavior of a 10 cars in a 2-dimensional
+ *  plane. Each car's attributes include its color, its position (x,y) , and its
+ *  ignition state (on/off). Users may control the ignition, and move the cars
+ *  around witin a 20x20 grid. After each move, the position of the selected car 
+ *  is displayed.
+ *
+ * Notes:    I decided to stored each car in a String array. Preserving each car in its 
+ * own array naturally presented some unique challenges. Adding or updating an 
+ * individual car's attributes, or passing those attributes as parameters, 
+ * required conversions between the original attribute type and the String. 
+ * The class email provided an alternative, storing each set of attributes in 
+ * its own array, but I feel my approach, while far from perfect (it's clear 
+ * at this point that we're heading towards the ideal object-oriented solution) 
+ * has the advantage of creating "object-like" arrays, storing different 
+ * different types of values. If I'm forced to use arrays, I feel it's best to 
+ * mimic that object-oriented style, and establish a single array for each car.
  */
 
 import java.util.Scanner;
 
 public class TenCarSimulator {
     public static void main(String[] args) {
+        // Introduce the program
+        System.out.println();
+        System.out.println("Welcome to Sean's car simulator.");
+        System.out.println("This program simulates the movement of" +
+            "10 cars across a 2-dimensional 20x20 grid.");
+        System.out.println();
+
         // Create the array of cars
         String[][] cars = new String[10][4];
         
@@ -79,19 +88,18 @@ public class TenCarSimulator {
         int[] position = new int[2];
         int carIndex;
 
+        // Prompt user to specify a car
+        carIndex = selectCar(cars.length, input);
 
         do {
-            // Prompt user to specify a car
-            carIndex = selectCar(cars.length, input);
-
             // Pull the appropriate car attributes into the temp variables
             ignition = Boolean.parseBoolean(cars[carIndex][0]);
             color = cars[carIndex][1].charAt(0);
             position[0] = Integer.parseInt(cars[carIndex][2]);
             position[1] = Integer.parseInt(cars[carIndex][3]);
-            
+
             // Show the user the selected car's attributes (no overhead yet)
-            displayStatus(ignition, color, position, false);
+            displayStatus(carIndex ,ignition, color, position, false);
             System.out.println();
 
             // Prompt user for action
@@ -112,45 +120,76 @@ public class TenCarSimulator {
             } else if (inputValue.equals("2")) { // Change position.
 
                 if (ignition) {
-                    changePosition(ignition, color, position, input);
+                    changePosition(carIndex, ignition, color, position, input);
                     updateOneCar(cars[carIndex], ignition, color, position);
+                
                 } else {
                     System.out.println("ERROR: You must turn on the ignition first!");
                     System.out.println();
                 }
 
+            } else if (inputValue.equals("3")) {
+                // Prompt user to specify a car
+                carIndex = selectCar(cars.length, input);
+
             } else if (!quitter) { // unrecognized entry
                 System.out.println("ERROR: Invalid selection.");
                 System.out.println();
-
             }
+
         } while(!quitter);
     } // end driveCar
 
     public static int selectCar(int total, Scanner input) {
+        String inputValue;
         int index;
-        boolean outOfRange;
+        boolean invalid;
 
         do {
             System.out.print("Which car would you like to use (1-" +
                 total + ")? ");
-            index = input.nextInt();
+            // Get input as a String
+            inputValue = input.next();
 
-            outOfRange = (index > total || index < 1);
+            // Validate input to ensure the proper type and 
+            // that the value is within the 1-total range.
+            invalid = checkCar(inputValue, total);
 
-            if (outOfRange) {
-                System.out.println("ERROR: Selection out of range!");
-            }
+        } while(invalid);
 
-        } while(outOfRange);
+        index = Integer.parseInt(inputValue);
 
         return (index - 1);
+    }
+
+    public static boolean checkCar(String inputValue, int total) {
+        // Initialize error checks to false
+        boolean badType = false;
+        boolean outOfRange = false;
+        int index;
+        
+        try {
+                index = Integer.parseInt(inputValue);
+                outOfRange = (index > total || index < 1);
+                
+                if (outOfRange) {
+                System.out.println("ERROR: Selection out of range!");
+                }
+
+            } catch (NumberFormatException e) {
+                badType = true;
+                System.out.println("ERROR: Invalid input!");
+            }
+
+        // If either is true, return true
+        return (outOfRange || badType);
     }
 
     public static void showDoPrompt() {
         System.out.println("What would you like to do?");
         System.out.println("  1: Turn the ignition on/off.");
         System.out.println("  2: Change the position of car.");
+        System.out.println("  3: Switch cars.");
         System.out.println("  Q: Quit this program.");
     }
 
@@ -174,7 +213,7 @@ public class TenCarSimulator {
         return state;
     }
 
-    public static void changePosition(boolean ignition, char color, int[] position,
+    public static void changePosition(int carIndex, boolean ignition, char color, int[] position,
                                       Scanner input) {
         int moveValue;
         boolean horizontalMove;
@@ -206,7 +245,7 @@ public class TenCarSimulator {
             }
 
             // Now we can actually move the car.
-            doMove(ignition, color, position, move);
+            doMove(carIndex, ignition, color, position, move);
         } else { // end if(validDirection())
             System.out.println("ERROR: Invalid direction!");
             System.out.println();
@@ -232,13 +271,13 @@ public class TenCarSimulator {
         }
     }
 
-    public static void doMove(boolean ignition, char color, int[] position,
-                              int[] move) {
+    public static void doMove(int carIndex, boolean ignition, char color, 
+                                int[] position, int[] move) {
 
         // Move the car if the move is not out of bounds.
         if (validMove(position, move)) {
             updatePosition(position, move);
-            displayStatus(ignition, color, position, true);
+            displayStatus(carIndex, ignition, color, position, true);
 
         } else {
             // Don't move the car.
@@ -261,10 +300,10 @@ public class TenCarSimulator {
         return (newX >= 1 && newX <= 20 && newY >= 1 && newY <= 20);
     }
 
-    public static void displayStatus(boolean ignition, char color,
+    public static void displayStatus(int carIndex, boolean ignition, char color,
                                      int[] position, boolean printGrid) {
         // Display the car's attributes.
-        System.out.println("Car Information");
+        System.out.println("Car #" + (carIndex + 1) + " Information");
         System.out.println("Color: " + fullColor(color));
         System.out.println("Ignition: " + ignitionState(ignition));
         printPosition(position);
