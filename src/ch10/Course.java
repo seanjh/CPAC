@@ -13,11 +13,11 @@ public class Course {
 	}
 
 	public void addStudent(String student) {
-		if (numberOfStudents == students.length) {
-			String[] studensExtended = new String[students.length * 2];
-			System.arraycopy(students, 0, studensExtended,
+		if (numberOfStudents >= students.length) {
+			String[] temp = new String[students.length * 2];
+			System.arraycopy(students, 0, temp,
 						0, students.length);
-			students = studensExtended;
+			students = temp;
 		}
 		// Add the new student to the end of the Array
 		students[numberOfStudents] = student;
