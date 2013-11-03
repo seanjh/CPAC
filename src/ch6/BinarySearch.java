@@ -7,19 +7,21 @@ public class BinarySearch {
 		Scanner input = new Scanner(System.in);
 
 		// Creat the sortedList
-		int[] sortedList = new int[1000];
+		int[] sortedList = new int[100];
 
 		// Input sorted list of 1000 values
 		// list via http://www.augustana.ca/~mohrj/algorithms/randpick.html
 		for (int i = 0; i < sortedList.length; i++) {
-			sortedList[i] = input.nextInt();
+			sortedList[i] = (int)(Math.random() * 10001);
 		}
 
 		// Get the key value
-		System.out.println(": ");
-		String inputValue = JOptionPane.showInputDialog("Enter a number to" + 
-			" lookup (from 0 to 10,000)");
-		int keyValue = Integer.parseInt(inputValue);
+		//System.out.println(": ");
+		//String inputValue = JOptionPane.showInputDialog("Enter a number to" + 
+		//	" lookup (from 0 to 10,000)");
+		System.out.println("Enter a number to lookup (from 0 to 10,000)");
+		int keyValue = input.nextInt();
+		//int keyValue = Integer.parseInt(inputValue);
 
 		// Display the list
 		displayList(sortedList, 15);
