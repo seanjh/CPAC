@@ -18,7 +18,7 @@ public class Loan {
         this.annualInterestRate = annualInterestRate;
         this.numberOfYears = numberOfYears;
         this.loanAmount = loanAmount;
-        oanDate = new Date();
+        Date LoanDate = new Date();
     }
 
     public double getAnnualInterestRate() {

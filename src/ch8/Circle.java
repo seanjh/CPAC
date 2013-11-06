@@ -25,7 +25,7 @@ class Circle {
         return 2 * radius * Math.PI;
     }
 
-    double setRadius(double newRadius) {
+    void setRadius(double newRadius) {
         radius = newRadius;
     }
 
