@@ -1,3 +1,5 @@
+package homework;
+
 import java.util.Scanner;
 
 //package HW6;
@@ -29,16 +31,26 @@ public class CarSimulator3 {
                             (int)(1 + Math.random() * Position.getRange()));
         }
 
+        for (int i = 0; i < cars.length; i++) {
+            System.out.printf("Car #%d (%s) begins at (%d,%d)\n", (i + 1), 
+                                cars[i].getColorString(), cars[i].getX(), cars[i].getY());
+        }
+
+        System.out.println();
+
         driveCars(cars);
+        
+        System.out.println();
+        System.out.println("Quitting program. Thank you for using Sean's car simulator.");
+        System.out.println();
     }
 
     public static void driveCars(Car[] cars) {
         Scanner input = new Scanner(System.in);
         String inputValue = "";
 
-        int carIndex;
-        //carIndex = selectCar(cars.length, input);
-        System.out.println("Implement select car.");
+        Car myCar = selectCar(input, cars);
+        System.out.println(myCar);
 
         while (!(inputValue.toLowerCase().equals("q"))) {
             // Prompt user for action
@@ -49,23 +61,30 @@ public class CarSimulator3 {
 
             switch (inputValue.toLowerCase()) {
                 case ("1"):
-                    System.out.println("Implement change ignition.");
+                    // 1 - change ignition
+                    myCar.switchIgnition();
                     break;
+
                 case ("2"):
-                    System.out.println("Implement change position.");
+                    // 2 - change position of car
+                    if (myCar.isIgnitionOn()) {
+                        moveCar(input, myCar);
+                        // Show the status of the car
+                        System.out.println(myCar);
+                    } else {
+                        // Dummy call to move vertical, which triggers ignition error.
+                        myCar.moveVertical(0);
+                    }
                     break;
+
                 case ("3"):
-                    System.out.println("Implement select car.");
+                    // 3 - select a car
+                    myCar = selectCar(input, cars);
+                    // Show the status of the car
+                    System.out.println(myCar);
                     break;
-                case ("q"):
-                    break;
-                default:
-                    System.out.println("ERROR: Invalid selection.");
-
             }
-
         }
-
     }
 
     public static void showDoPrompt() {
@@ -74,6 +93,51 @@ public class CarSimulator3 {
         System.out.println("  2: Change the position of car.");
         System.out.println("  3: Switch cars.");
         System.out.println("  Q: Quit this program.");
+    }
+
+    public static Car selectCar(Scanner input, Car[] cars) {
+        int index;
+
+        // Prompt the user to select a car
+        System.out.print("Which car would you like to use (1-" +
+                cars.length + ")? ");
+        index = input.nextInt();
+
+        if (index < 1 || index > cars.length) {
+            System.out.println("\nERROR: Invalid entry. Defaulting to Car #1.\n");
+            index = 1;
+        }
+        
+        // User input is from 1-length. Subtract 1 to accomodate the array.
+        return cars[index - 1];
+    }
+
+    public static void moveCar(Scanner input, Car myCar) {
+        // Prompt the user to specify a direction
+        showMoveDirectionPrompt();
+        String inputValue = input.next();
+        int distance;
+
+        switch (inputValue.toLowerCase()) {
+            case ("h"):
+                System.out.print("How far (negative value to move left)? ");
+                distance = input.nextInt();
+                myCar.moveHorizontal(distance);
+                break;
+            case ("v"):
+                System.out.print("How far (negative value to move up)? ");
+                distance = input.nextInt();
+                myCar.moveVertical(distance);
+                break;
+            default:
+                System.out.println("\nERROR: Invalid entry.\n");
+        }
+    }
+
+    public static void showMoveDirectionPrompt() {
+        System.out.println("In which direction would you like to move the car?");
+        System.out.println("  H: horizontal");
+        System.out.println("  V: vertical");
     }
 }
 
@@ -138,7 +202,7 @@ class Car {
         if (isIgnitionOn()) {
             coords.moveX(x);
         } else {
-            System.out.println("ERROR: Ignition is off. Switch on ignition first.");
+            System.out.println("\nERROR: Ignition is off. Switch on ignition first.\n");
         }
     }
 
@@ -146,11 +210,12 @@ class Car {
         if (isIgnitionOn()) {
             coords.moveY(y);
         } else {
-            System.out.println("ERROR: Ignition is off. Switch on ignition first.");
+            System.out.println("\nERROR: Ignition is off. Switch on ignition first.\n");
         }
     }
 
     public void switchIgnition() {
+        System.out.println("\nSwitching the ignition on.\n");
         this.ignition = !ignition;
     }
 
@@ -199,7 +264,7 @@ class Car {
 *
 */
 class Position {
-    private static int range = 20;
+    private static final int RANGE = 20;
     private int x = 0;
     private int y = 0;
 
@@ -221,24 +286,24 @@ class Position {
     }
 
     public static int getRange() {
-        return range;
+        return RANGE;
     }
 
     public void moveX(int x) {
-        if ((x + getX() <= Position.range) && (x + getX() > 0)) {
+        if ((x + getX() <= Position.RANGE) && (x + getX() > 0)) {
             this.x += x;
         } else {
-            System.out.printf("ERROR: Coordinates are outside the permitted range " + 
-                                "(1-%d).\n", range);
+            System.out.printf("ERROR: Position is outside the permitted range " + 
+                                "(1-%d).\n", RANGE);
         }
     }
 
     public void moveY(int y) {
-        if ((y + getY() <= Position.range) && (y + getY() > 0)) {
+        if ((y + getY() <= Position.RANGE) && (y + getY() > 0)) {
             this.y += y;
         } else {
-            System.out.printf("ERROR: Coordinates are outside the permitted range " + 
-                                "(1-%d).\n", range);
+            System.out.printf("ERROR: Position is outside the permitted range " + 
+                                "(1-%d).\n", RANGE);
         }
     }
 }

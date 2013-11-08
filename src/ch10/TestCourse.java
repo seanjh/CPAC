@@ -7,7 +7,7 @@ public class TestCourse {
 		course1.addStudent("Kim Smith");
 		course1.addStudent("Anne Kennedy");
 
-		.//course2.addStudent("Peter Jones");
+		//course2.addStudent("Peter Jones");
 		course2.addStudent("Steve Smith");
 
 		System.out.println("Number of students in course1: " +
