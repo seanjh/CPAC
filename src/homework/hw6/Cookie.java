@@ -1,6 +1,6 @@
 public class Cookie extends DessertItem {
     private int number;
-    private int centsPerDozen;
+    private int costPerDozen;
 
     public Cookie() {
         this("", 1, 1);a
@@ -9,7 +9,7 @@ public class Cookie extends DessertItem {
     public Cookie(String name, int number, int cents) {
         super(name);
         setNumber(number);
-        setCentsPerDozen(cents);
+        setCostPerDozen(cents);
     }
 
     public int getNumber() {
@@ -25,19 +25,20 @@ public class Cookie extends DessertItem {
         }
     }
 
-    public int getCentsPerDozen() {
-        return pricePerDozen;
+    public int getCostPerDozen() {
+        return costPerDozen;
     }
 
-    public void setCentsPerDozen(int cents) {
+    public void setCostPerDozen(int cents) {
         if (price > 0) {
             centsPerDozen = cents;
         } else {
-            System.out.println("ERROR! Price/dozen Cookies must be > 0. Defaulting to 1.");
-            centsPerDozen = 1;
+            System.out.println("ERROR! Price/dozen Cookies must be > 0. Defaulting to 100.");
+            costPerDozen = 100;
         }
     }
 
+    @Override
     public int getCost() {
         double dozens = (double) number / 12.0; 
         return Math.round((float)(dozens * centsPerDozen));

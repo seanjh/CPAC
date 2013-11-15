@@ -1,5 +1,5 @@
 public class IceCream extends DessertItem {
-    int centsCost;
+    int cost;
 
     public IceCream() {
         this("", 1);
@@ -10,16 +10,17 @@ public class IceCream extends DessertItem {
         setCost(cents);
     }
 
+    @Override
     public int getCost() {
-        return centsCost;
+        return cost;
     }
 
     public void setCost(int cents) {
         if (cents > 0) {
-            centsCost = cents;
+            cost = cents;
         } else {
-            System.out.println("ERROR! Cost must be > 0. Defaulting to 1.");
-            centsCost = 1;
+            System.out.println("ERROR! Cost must be > 0. Defaulting to 100.");
+            cost = 100;
         }
     }
 }

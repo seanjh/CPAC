@@ -1,6 +1,6 @@
 public class Candy extends DessertItem {
     private double pounds;
-    private int centsPerPound;
+    private int costPerPound;
 
     public Candy() {
         this("", 0.1, 1);
@@ -9,7 +9,7 @@ public class Candy extends DessertItem {
     public Candy(String name, double pounds, int cents) {
        super(name);
        setPounds(pounds);
-       setCentsPerPound(cents);
+       setCostPerPound(cents);
     }
 
     public double getPounds() {
@@ -25,20 +25,21 @@ public class Candy extends DessertItem {
         }
     }
 
-    public int getCentsPerPound() {
-        return centsPerPound;
+    public int getCostPerPound() {
+        return costPerPound;
     }
 
     public void setCentsPerPound(int cents) {
         if (cents > 0) {
-            centsPerPound = cents;
+            costPerPound = cents;
         } else {
             System.out.println("ERROR! Cents/pound must be > 0. Defaulting to 1.");
-            centsPerPound = 1;
+            costPerPound = 1;
         }
     }
 
+    @Override
     public int getCost() {
-        return Math.round((float)(pounds * centsPerPound)); 
+        return Math.round((float)(pounds * costPerPound)); 
     }
 }
