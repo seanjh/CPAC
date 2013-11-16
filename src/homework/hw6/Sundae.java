@@ -1,3 +1,5 @@
+/* Sundae *has a* topping, and *is an* IceCream.
+*/
 public class Sundae extends IceCream {
     private SundaeTopping topping;
 
@@ -12,7 +14,7 @@ public class Sundae extends IceCream {
 
     @Override
     public int getCost() {
-        return this.cost + topping.toppingCost;
+        return this.cost + topping.cost;
     }
     
     @Override 
@@ -22,33 +24,36 @@ public class Sundae extends IceCream {
         return output;
     }
 
-}
-
-    // TODO: getter/setters for topping
-
+    /* SundaeTopping is a nested Inner Class of Sundae. SundaeTopping is only
+    *  relevant within Sundae, but it still *is a* DessertItem (and we still
+    *  want DessertItem's constructor.
+    */
     class SundaeTopping extends DessertItem {
-        protected int toppingCost; // cost in cents
+        private int cost; // cost in cents
 
-        protected SundaeTopping() {
-            this("Topping", 100); // default values
+        private SundaeTopping() {
+            this("Topping", 100); // defaults
         }
 
-        protected SundaeTopping(String name, int cents) {
+        private SundaeTopping(String name, int cents) {
             super(name);
             setCost(cents);
         }
 
-        @Override
-        public int getCost() {
-            return toppingCost;
-        }
-
-        protected void setCost(int cents) {
+        private void setCost(int cents) {
             if (cents > 0) {
-                toppingCost = cents;
+                cost = cents;
             } else {
-                System.out.println("ERROR! Cost must be > 0. Defaulting to 100.");
-                toppingCost = 100;
+                System.out.println(this.getClass().getName() + " (" + this.name + ")" +
+                    " ERROR! Cost must be > 0. Defaulting to 100.\n");
+                cost = 100;
             }
         }
+
+        // public to allow override of DessertItem's public getCost
+        @Override
+        public int getCost() {
+            return cost;
+        }
     }
+}

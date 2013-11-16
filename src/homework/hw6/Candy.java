@@ -22,8 +22,9 @@ public class Candy extends DessertItem {
         if (pounds > 0) {
             this.pounds = pounds;
         } else {
-            System.out.println("ERROR! The pounds must be > 0. Defaulting to 1.0");
-            pounds = 1.0;
+            System.out.println(this.getClass().getName() + " (" + this.name + ")" +
+                " ERROR! The pounds must be > 0. Defaulting to 1.0.\n");
+            this.pounds = 1.0;
         }
     }
 
@@ -35,14 +36,15 @@ public class Candy extends DessertItem {
         if (cents > 0) {
             costPerPound = cents;
         } else {
-            System.out.println("ERROR! Cents/pound must be > 0. Defaulting to 100.");
+            System.out.println(this.getClass().getName() +  " (" + this.name + ")" +
+                " ERROR! Cents/pound must be > 0. Defaulting to 100.\n");
             costPerPound = 100;
         }
     }
 
     @Override
     public int getCost() {
-        return (int)Math.round(pounds * costPerPound); 
+        return (int) Math.round(pounds * costPerPound); 
     }
 
     @Override

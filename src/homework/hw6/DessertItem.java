@@ -23,8 +23,3 @@ public DessertItem() {
   public abstract int getCost();
 
 }
-   
-  
-  
-   
-   

@@ -20,7 +20,8 @@ public class Cookie extends DessertItem {
         if (number > 0) {
             this.number = number;
         } else {
-            System.out.println("ERROR! Number of Cookies must be > 0. Defaulting to 1.");
+            System.out.println(this.getClass().getName() + " (" + this.name + ")" +
+                " ERROR! Number of Cookies must be > 0. Defaulting to 1.\n");
             this.number = 1;
         }
     }
@@ -33,15 +34,17 @@ public class Cookie extends DessertItem {
         if (cents > 0) {
             costPerDozen = cents;
         } else {
-            System.out.println("ERROR! Price/dozen Cookies must be > 0. Defaulting to 100.");
+            System.out.println(this.getClass().getName()  + " (" + this.name + ")" +
+                " ERROR! Price/dozen Cookies must be > 0. Defaulting to 100.\n");
             costPerDozen = 100;
         }
     }
 
     @Override
     public int getCost() {
+        // First calculate the number of dozens, since cookie cost is by the dozen
         double dozens = (double) number / 12.0; 
-        return (int)Math.round((dozens * costPerDozen));
+        return (int) Math.round((dozens * costPerDozen));
     }
 
     @Override
@@ -50,7 +53,6 @@ public class Cookie extends DessertItem {
         output = ("" + number + " @ " + DessertShoppe.cents2dollarsAndCents(costPerDozen) +
                 " /dz.\n");
         output += name;
-
         return output;
     }
 }
