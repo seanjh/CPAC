@@ -1,9 +1,11 @@
+import java.text.DecimalFormat;
+
 public class Candy extends DessertItem {
     private double pounds;
     private int costPerPound;
 
     public Candy() {
-        this("", 0.1, 1);
+        this("Candy", 1.0, 100); // defaults
     }
 
     public Candy(String name, double pounds, int cents) {
@@ -16,12 +18,12 @@ public class Candy extends DessertItem {
         return pounds;
     }
 
-    public void setUnitPounds(double pounds) {
+    public void setPounds(double pounds) {
         if (pounds > 0) {
             this.pounds = pounds;
         } else {
-            System.out.println("ERROR! The pounds/unit must be > 0. Defaulting to 0.1");
-            pounds = 0.1;
+            System.out.println("ERROR! The pounds must be > 0. Defaulting to 1.0");
+            pounds = 1.0;
         }
     }
 
@@ -29,17 +31,28 @@ public class Candy extends DessertItem {
         return costPerPound;
     }
 
-    public void setCentsPerPound(int cents) {
+    public void setCostPerPound(int cents) {
         if (cents > 0) {
             costPerPound = cents;
         } else {
-            System.out.println("ERROR! Cents/pound must be > 0. Defaulting to 1.");
-            costPerPound = 1;
+            System.out.println("ERROR! Cents/pound must be > 0. Defaulting to 100.");
+            costPerPound = 100;
         }
     }
 
     @Override
     public int getCost() {
-        return Math.round((float)(pounds * costPerPound)); 
+        return (int)Math.round(pounds * costPerPound); 
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat formatter = new DecimalFormat("#.##");
+        String output = ("" + formatter.format(pounds) + " lbs. @ " + 
+                    DessertShoppe.cents2dollarsAndCents(costPerPound) + 
+                    " /lb.\n");
+        output += name;
+
+        return output;
     }
 }

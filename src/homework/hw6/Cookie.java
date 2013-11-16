@@ -3,7 +3,7 @@ public class Cookie extends DessertItem {
     private int costPerDozen;
 
     public Cookie() {
-        this("", 1, 1);a
+        this("Cookie", 1, 100); // Default arguments
     }
 
     public Cookie(String name, int number, int cents) {
@@ -30,8 +30,8 @@ public class Cookie extends DessertItem {
     }
 
     public void setCostPerDozen(int cents) {
-        if (price > 0) {
-            centsPerDozen = cents;
+        if (cents > 0) {
+            costPerDozen = cents;
         } else {
             System.out.println("ERROR! Price/dozen Cookies must be > 0. Defaulting to 100.");
             costPerDozen = 100;
@@ -41,6 +41,16 @@ public class Cookie extends DessertItem {
     @Override
     public int getCost() {
         double dozens = (double) number / 12.0; 
-        return Math.round((float)(dozens * centsPerDozen));
+        return (int)Math.round((dozens * costPerDozen));
+    }
+
+    @Override
+    public String toString() {
+        String output;
+        output = ("" + number + " @ " + DessertShoppe.cents2dollarsAndCents(costPerDozen) +
+                " /dz.\n");
+        output += name;
+
+        return output;
     }
 }

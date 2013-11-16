@@ -2,7 +2,7 @@ public class IceCream extends DessertItem {
     int cost;
 
     public IceCream() {
-        this("", 1);
+        this("Ice Cream", 100); // defaults
     }
 
     public IceCream(String name, int cents) {
@@ -13,6 +13,11 @@ public class IceCream extends DessertItem {
     @Override
     public int getCost() {
         return cost;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public void setCost(int cents) {

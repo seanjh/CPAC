@@ -2,7 +2,7 @@ public class Sundae extends IceCream {
     private SundaeTopping topping;
 
     public Sundae() {
-        this("", 1, "", 1);
+        this("Sundae", 100, "Topping", 100);
     }
 
     public Sundae(String name, int cents, String toppingName, int toppingCents) {
@@ -12,35 +12,43 @@ public class Sundae extends IceCream {
 
     @Override
     public int getCost() {
-        return this.cost + topping.cost;
+        return this.cost + topping.toppingCost;
     }
+    
+    @Override 
+    public String toString() {
+        String output = topping.name + " Sundae with\n";
+        output += name;
+        return output;
+    }
+
+}
 
     // TODO: getter/setters for topping
 
     class SundaeTopping extends DessertItem {
-        private int cost; // cost in cents
+        protected int toppingCost; // cost in cents
 
-        private SundaeTopping() {
-            this("", 1);
+        protected SundaeTopping() {
+            this("Topping", 100); // default values
         }
 
-        private SundaeTopping(String name, int cents) {
+        protected SundaeTopping(String name, int cents) {
             super(name);
             setCost(cents);
         }
 
         @Override
-        private int getCost() {
-            return cost;
+        public int getCost() {
+            return toppingCost;
         }
 
-        private void setCost(int cents) {
+        protected void setCost(int cents) {
             if (cents > 0) {
-                this.cost = cents;
+                toppingCost = cents;
             } else {
-                System.out.println("ERROR! Cost must be > 0. Defaulting to 1.");
-                this.cost = 1;
+                System.out.println("ERROR! Cost must be > 0. Defaulting to 100.");
+                toppingCost = 100;
             }
         }
     }
-}
