@@ -121,9 +121,9 @@ public class GameOfLife {
         else
             neighbors = 0;
 
-        // Check in array from world[x-1][y-1] through world[x+1][y+1]
+        // Check in array from world[x+-1][y+-1] through world[x+1][y+1]
         for (int i = -1; i <= 1; i++ ) {
-            for (int j = 1; j <= 1; j++) {
+            for (int j = -1; j <= 1; j++) {
                 if (world[x + i][y + j] == 'X')
                     neighbors++;
             }
